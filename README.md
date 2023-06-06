@@ -14,10 +14,10 @@
 
 | Integrantes                                                         |
 | ------------------------------------------------------------------- |
-| [Mauricio Davico](https://github.com/)                              |
+| [Mauricio Davico](https://github.com/mdavic0)                              |
 | [Mateo Lardiez](https://github.com/Mlardiez)                        |
 | [Ramiro Gestoso](https://github.com/ramirogestoso)                  |
-| [Manuel Dieguez](https://github.com/lionelguglielmone)              |
+| [Manuel Dieguez](https://github.com/)              |
 | [Miguel Vasquez](https://github.com/MiguelV5)                       |
 
 
