@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException, Request, Depends
 
-from . import crud, schemas, models
-from .database import SessionLocal, engine
+from lib import crud, models
+
+from lib import schemas
+from lib.database import SessionLocal, engine
 
 from sqlalchemy.orm import Session
 
@@ -29,12 +31,12 @@ def root(request: Request):
 
 @app.get("/recursos/")
 def getRecursos():
-    return crud.get_recursos()
+    return crud.get_recursos_desde_endpoint()
 
 
 @app.get("/recursos/{legajo}")
 def getRecursosPorLegajo(legajo: int):
-    recurso = crud.get_recurso_por_legajo(legajo)
+    recurso = crud.get_recurso_por_legajo_desde_endpoint(legajo)
 
     if not recurso:
         raise HTTPException(status_code=404, detail="Recurso no encontrado")
@@ -42,43 +44,16 @@ def getRecursosPorLegajo(legajo: int):
     return recurso
 
 
+@app.get("/recursos/allRegistros/")
+def getTodosLosRegistrosDeHoras(db: Session = Depends(get_db)):
+    return crud.get_all_registros_desde_db(db=db)
+
+
 @app.get("/recursos/{legajo}/registros/")
 def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db)):
-    return crud.get_registros(db=db, legajo=legajo)
+    return crud.get_registro_por_legajo_desde_db(db=db, legajo=legajo)
 
 
-@app.post("/recursos/{legajo}/registros/", response_model=schemas.RegistroDeHoras)
+@app.post("/recursos/{legajo}/registro/", response_model=schemas.RegistroDeHoras)
 def postRegistroDeHoras(legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)):
     return crud.post_registro(db=db, legajo=legajo, registro=registro)
-
-# OBTENCION DE DATOS DE PROYECTOS (LA IDEA ES CONSUMIRLO ASI)
-
-
-@app.get("/proyectos")
-def getProyectos():
-    proyectos = [
-        {
-            "id": 1,
-            "nombre": "Proyecto 1",
-            "fecha_inicio": "2023-06-07",
-            "fecha_finalizacion": "2023-08-07"
-        }, {
-            "id": 2,
-            "nombre": "Proyecto 2",
-            "fecha_inicio": "2023-04-01",
-            "fecha_finalizacion": "2023-10-31"
-        }, {
-            "id": 3,
-            "nombre": "Proyecto 3",
-            "fecha_inicio": "2023-01-01",
-            "fecha_finalizacion": "2023-12-31"
-        }]
-    return proyectos
-
-
-@app.get("/proyectos/{id}")
-def getProyectoPorId(id: int):
-    for proyecto in getProyectos():
-        if proyecto["id"] == id:
-            return proyecto
-    raise HTTPException(status_code=404, detail="Proyecto no encontrado")
