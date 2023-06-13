@@ -17,12 +17,14 @@
 | [Mauricio Davico](https://github.com/mdavic0)                              |
 | [Mateo Lardiez](https://github.com/Mateolardiez)                        |
 | [Ramiro Gestoso](https://github.com/ramirogestoso)                  |
-| [Manuel Dieguez](https://github.com/)              |
+| [Manuel Dieguez](https://github.com/jmdieguez)              |
 | [Miguel Vasquez](https://github.com/MiguelV5)                       |
 
 
 ---
 
-## (...)
+## Ejecución local
 
-py -m uvicorn src.main:app --reload
+```bash
+python3 -m uvicorn src.main:app --reload
+```
