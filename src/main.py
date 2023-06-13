@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, Depends
+from fastapi import FastAPI, HTTPException, Request, Depends, status
 
 from lib import crud, models
 
@@ -39,7 +39,8 @@ def getRecursosPorLegajo(legajo: int):
     recurso = crud.get_recurso_por_legajo_desde_endpoint(legajo)
 
     if not recurso:
-        raise HTTPException(status_code=404, detail="Recurso no encontrado")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Recurso no encontrado")
 
     return recurso
 

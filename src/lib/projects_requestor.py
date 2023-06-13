@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 import requests
 
 # revisar despues de que los de proyectos nos pasen la url
@@ -97,4 +97,5 @@ def getProyectoPorId(id: int):
     for proyecto in getProyectosList():
         if proyecto["id"] == id:
             return proyecto
-    raise HTTPException(status_code=404, detail="Proyecto no encontrado")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                        detail="Proyecto no encontrado")
