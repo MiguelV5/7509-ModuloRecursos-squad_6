@@ -119,8 +119,7 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
 def delete_registro(db: Session, legajo: int, idRegistro: int):
     recvd_registro = db.query(models.RegistroDeHoras).filter_by(legajo_recurso=legajo, id=idRegistro).first()
     if not recvd_registro:
-        #tirar excepcion
-        pass
+        raise RegistroNoExistenteException(legajo, idRegistro)
 
     db.delete(recvd_registro)
     db.commit()

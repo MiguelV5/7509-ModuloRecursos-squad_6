@@ -3,6 +3,11 @@ class RecursoNoExistenteException(Exception):
     def __init__(self, id):
         self.message = f"Recurso no encontrado: {id}"
 
+class RegistroNoExistenteException(Exception):
+    message = ""
+    def __init__(self, idRecurso, id):
+        self.message = f"Registro de recurso {idRecurso} no encontrado: {id}"
+
 class FechaNoValidaException(Exception):
     message = ""
     def __init__(self):
