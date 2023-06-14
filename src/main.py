@@ -25,7 +25,7 @@ PROYECTOS_BASE_URL = ""
 
 
 @app.get("/", summary="Raíz")
-def root(request: Request):
+def root():
     return crud.get_mensaje_root()
 
 
@@ -45,7 +45,7 @@ def getRecursosPorLegajo(legajo: int):
     return recurso
 
 
-@app.get("/recursos/allRegistros/", summary="Obtener todos los registros")
+@app.get("/recursos/registros/", summary="Obtener todos los registros")
 def getTodosLosRegistrosDeHoras(db: Session = Depends(get_db)):
     return crud.get_all_registros_desde_db(db=db)
 
@@ -55,6 +55,6 @@ def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db)):
     return crud.get_registro_por_legajo_desde_db(db=db, legajo=legajo)
 
 
-@app.post("/recursos/{legajo}/registro/", response_model=schemas.RegistroDeHoras, summary="Crear un registro de un legajo")
+@app.post("/recursos/{legajo}/registros/", response_model=schemas.RegistroDeHoras, summary="Crear un registro de un legajo")
 def postRegistroDeHoras(legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)):
     return crud.post_registro(db=db, legajo=legajo, registro=registro)
