@@ -1,5 +1,4 @@
-from fastapi import HTTPException, status
-import requests
+from .exceptions.exceptions import *
 
 # revisar despues de que los de proyectos nos pasen la url
 GET_PROYECTOS_ENDPOINT = "https://[placeholder_for_api_name].render.com/api/proyectos"
@@ -97,5 +96,4 @@ def getProyectoPorId(id: int):
     for proyecto in getProyectosList():
         if proyecto["id"] == id:
             return proyecto
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                        detail="Proyecto no encontrado")
+    raise ProyectoNoExistenteException(id)

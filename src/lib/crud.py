@@ -1,10 +1,9 @@
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 import requests
 from datetime import date
 
 from . import projects_requestor
-
+from .exceptions.exceptions import *
 from . import models
 from . import schemas
 
@@ -31,7 +30,7 @@ def get_recurso_por_legajo_desde_endpoint(legajo: int):
         if r["legajo"] == legajo:
             return r
 
-    return None
+    raise RecursoNoExistenteException(legajo)
 
 
 def get_all_registros_desde_db(db: Session):
@@ -62,29 +61,22 @@ def _parse_tasks_ids_to_list(projects: list):
 def _check_fecha_recibida_es_valida(recvd_registro: models.RegistroDeHoras):
     fecha_actual = date.today()
     if recvd_registro.fecha_de_registro > fecha_actual:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="La fecha ingresada no es válida, por favor ingrese una fecha del pasado"
-        )
+        raise FechaNoValidaException()
 
 
 def _check_existencia_de_proyecto_y_tarea(recvd_registro: models.RegistroDeHoras):
     projects = projects_requestor.getProyectosList()
     if recvd_registro.id_proyecto not in _parse_projects_ids_to_list(projects):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"No existe el proyecto (id dada: {recvd_registro.id_proyecto}) al que se quiere registrar horas")
+        raise ProyectoNoExistenteException(recvd_registro.id_proyecto)
     elif recvd_registro.id_tarea not in _parse_tasks_ids_to_list(projects):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"No existe la tarea (id dada: {recvd_registro.id_tarea}) a la que se quieren registrar horas")
+        raise TareaNoExistenteException(recvd_registro.id_tarea)
 
 
 def _check_cantidad_de_horas_del_registro_recibido(recvd_registro: models.RegistroDeHoras):
     if recvd_registro.cantidad < MIN_HORAS_A_REGISTRAR:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Cantidad de horas no puede ser negativa o nula")  # REVISAR
+        raise CantidadDeHorasNulasException()
     elif recvd_registro.cantidad > MAX_HORAS_A_REGISTRAR:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Cantidad de horas no puede ser mayor a {MAX_HORAS_A_REGISTRAR}")
+        raise CantidadDeHorasExcesivasException(MAX_HORAS_A_REGISTRAR)
 
 
 def _check_total_cantidad_de_horas_en_fecha(recvd_registro: models.RegistroDeHoras, db: Session):
@@ -102,9 +94,7 @@ def _check_total_cantidad_de_horas_en_fecha(recvd_registro: models.RegistroDeHor
                 cantidad_total_de_horas_en_fecha += r.cantidad
 
         if cantidad_total_de_horas_en_fecha >= MAX_HORAS_A_REGISTRAR:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail=f"Con la cantidad de horas a cargar dada (horas: {recvd_registro.cantidad}), el recurso tendría una cantidad excesiva de horas cargadas en la fecha (fecha: {recvd_registro.fecha_de_registro}, cantidad de horas cargadas previamente en la fecha: {cantidad_total_de_horas_en_fecha}, cantidad maxima de una fecha: {MAX_HORAS_A_REGISTRAR})"
-            )
+            raise CantidadDeHorasExcesivasEnJornadaException(recvd_registro.cantidad, recvd_registro.fecha_de_registro, cantidad_total_de_horas_en_fecha, MAX_HORAS_A_REGISTRAR)
 
 
 def _check_body_registro(recvd_registro: models.RegistroDeHoras, db: Session):
