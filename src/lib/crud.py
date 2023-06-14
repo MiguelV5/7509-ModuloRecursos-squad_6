@@ -44,6 +44,15 @@ def get_registro_por_legajo_desde_db(db: Session, legajo: int):
 
 # ========================= POST: =========================
 
+def _generate_new_registro_id(db: Session):
+    registros = get_all_registros_desde_db(db)
+    prev_last_idx = -1
+    if registros:
+        return registros[prev_last_idx].id + 1
+    else:
+        return 1
+
+
 def _parse_projects_ids_to_list(projects: list):
     projects_ids = []
     for p in projects:
@@ -121,6 +130,8 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
 
     _check_body_registro(recvd_registro, db)
 
+    # Necesario para que el id sea autoincremental. Antes dejaba postear con id identica porque lo pediamos en el body de la request.
+    recvd_registro.id = _generate_new_registro_id(db)
     db.add(recvd_registro)
     db.commit()
     db.refresh(recvd_registro)
