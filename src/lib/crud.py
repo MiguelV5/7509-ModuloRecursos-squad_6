@@ -125,3 +125,13 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.commit()
     db.refresh(recvd_registro)
     return recvd_registro
+
+def delete_registro(db: Session, legajo: int, idRegistro: int):
+    recvd_registro = db.query(models.RegistroDeHoras).filter_by(legajo_recurso=legajo, id=idRegistro).first()
+    if not recvd_registro:
+        #tirar excepcion
+        pass
+
+    db.delete(recvd_registro)
+    db.commit()
+    return recvd_registro

@@ -58,3 +58,8 @@ def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db)):
 @app.post("/recursos/{legajo}/registros/", response_model=schemas.RegistroDeHoras, summary="Crear un registro de un legajo")
 def postRegistroDeHoras(legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)):
     return crud.post_registro(db=db, legajo=legajo, registro=registro)
+
+
+@app.delete("/recursos/{legajo}/registros/{idRegistro}", response_model=schemas.RegistroDeHoras, summary="Eliminar un registro de un legajo")
+def deleteRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
+    return crud.delete_registro(db=db, legajo=legajo, idRegistro=idRegistro)
