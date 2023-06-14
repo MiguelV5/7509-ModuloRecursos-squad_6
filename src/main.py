@@ -64,7 +64,7 @@ def deleteRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(ge
 @app.exception_handler(Exception)
 def validation_exception_handler(request, err):
     status_code = 400
-    errs_404 = [ProyectoNoExistenteException, TareaNoExistenteException, RecursoNoExistenteException]
+    errs_404 = [ProyectoNoExistenteException, TareaNoExistenteException, RecursoNoExistenteException, RegistroNoExistenteException]
     if type(err) in errs_404:
         status_code = 404
     base_error_message = f"Failed to execute: {request.method}: {request.url}"
