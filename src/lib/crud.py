@@ -63,6 +63,9 @@ def get_registro_por_legajo_desde_db(
     fechaInicio: date | None = None,
     fechaFin: date | None = None,
 ):
+    
+    _check_existe_recurso(legajo)
+
     if fechaFin is None:
         fechaFin = date.today()
 
@@ -82,15 +85,22 @@ def get_registro_por_legajo_desde_db(
 
 
 def get_registro(db: Session, legajo: int, idRegistro: int):
+
+    _check_existe_recurso(legajo)
+
     recvd_registro = (
         db.query(RegistroDeHoras)
         .filter_by(legajo_recurso=legajo, id=idRegistro)
         .first()
     )
+
     if not recvd_registro:
         raise RegistroNoExistenteException(legajo, idRegistro)
 
     return recvd_registro
+
+def _check_existe_recurso(legajo: int):
+    get_recurso_por_legajo_desde_endpoint(legajo)
 
 
 # ========================= POST: =========================
@@ -167,6 +177,9 @@ def _check_body_registro(recvd_registro: RegistroDeHoras, db: Session):
 
 
 def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCreate):
+
+    _check_existe_recurso(legajo)
+
     recvd_registro = RegistroDeHoras(**registro.dict(), legajo_recurso=legajo)
 
     _check_body_registro(recvd_registro, db)
