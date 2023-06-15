@@ -58,3 +58,9 @@ class FechaInicialMayorAFinalException(Exception):
 
     def __init__(self, fechaInicio, fechaFinal):
         self.message = f"La fecha de inicio: {fechaInicio} debe ser menor o igual a la fecha final: {fechaFinal}"
+
+class RegistroVacioException(Exception):
+    message = ""
+
+    def __init__(self, camposModificables):
+        self.message = f"Para modificar el registro debe indicar al menos un campo modificable: {camposModificables}"

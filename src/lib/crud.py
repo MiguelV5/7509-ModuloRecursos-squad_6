@@ -71,7 +71,6 @@ def get_registro(db: Session, legajo: int, idRegistro: int):
 
     return recvd_registro
 
-
 # ========================= POST: =========================
 
 def _parse_projects_ids_to_list(projects: list):
@@ -147,6 +146,10 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.commit()
     db.refresh(recvd_registro)
     return recvd_registro
+
+def patch_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasPatch):
+    if not any(registro.dict().values()):
+        raise RegistroVacioException(list(registro.dict().keys()))
 
 
 # ========================= DEL: =========================
