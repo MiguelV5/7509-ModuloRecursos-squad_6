@@ -20,21 +20,21 @@ def getProyectosList():
                     "id": 1,
                     "nombre": "Tarea 1",
                     "fecha_inicio": "2023-06-07",
-                    "fecha_finalizacion": "2023-06-14"
+                    "fecha_finalizacion": "2023-06-14",
                 },
                 {
                     "id": 2,
                     "nombre": "Tarea 2",
                     "fecha_inicio": "2023-06-15",
-                    "fecha_finalizacion": "2023-06-30"
+                    "fecha_finalizacion": "2023-06-30",
                 },
                 {
                     "id": 3,
                     "nombre": "Tarea 3",
                     "fecha_inicio": "2023-07-01",
-                    "fecha_finalizacion": "2023-07-15"
-                }
-            ]
+                    "fecha_finalizacion": "2023-07-15",
+                },
+            ],
         },
         {
             "id": 2,
@@ -46,21 +46,21 @@ def getProyectosList():
                     "id": 1,
                     "nombre": "Tarea 1",
                     "fecha_inicio": "2023-06-07",
-                    "fecha_finalizacion": "2023-06-14"
+                    "fecha_finalizacion": "2023-06-14",
                 },
                 {
                     "id": 2,
                     "nombre": "Tarea 2",
                     "fecha_inicio": "2023-06-15",
-                    "fecha_finalizacion": "2023-06-30"
+                    "fecha_finalizacion": "2023-06-30",
                 },
                 {
                     "id": 3,
                     "nombre": "Tarea 3",
                     "fecha_inicio": "2023-07-01",
-                    "fecha_finalizacion": "2023-07-15"
-                }
-            ]
+                    "fecha_finalizacion": "2023-07-15",
+                },
+            ],
         },
         {
             "id": 3,
@@ -72,22 +72,22 @@ def getProyectosList():
                     "id": 1,
                     "nombre": "Tarea 1",
                     "fecha_inicio": "2023-06-07",
-                    "fecha_finalizacion": "2023-06-14"
+                    "fecha_finalizacion": "2023-06-14",
                 },
                 {
                     "id": 2,
                     "nombre": "Tarea 2",
                     "fecha_inicio": "2023-06-15",
-                    "fecha_finalizacion": "2023-06-30"
+                    "fecha_finalizacion": "2023-06-30",
                 },
                 {
                     "id": 3,
                     "nombre": "Tarea 3",
                     "fecha_inicio": "2023-07-01",
-                    "fecha_finalizacion": "2023-07-15"
-                }
-            ]
-        }
+                    "fecha_finalizacion": "2023-07-15",
+                },
+            ],
+        },
     ]
     return proyectos
 

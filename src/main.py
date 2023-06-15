@@ -36,8 +36,14 @@ def getRecursos():
 
 
 @app.get("/recursos/registros", summary="Obtener todos los registros")
-def getTodosLosRegistrosDeHoras(db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFinal: date | None = None):
-    return crud.get_all_registros_desde_db(db=db, fechaInicio=fechaInicio, fechaFinal=fechaFinal)
+def getTodosLosRegistrosDeHoras(
+    db: Session = Depends(get_db),
+    fechaInicio: date | None = None,
+    fechaFin: date | None = None,
+):
+    return crud.get_all_registros_desde_db(
+        db=db, fechaInicio=fechaInicio, fechaFin=fechaFin
+    )
 
 
 @app.get("/recursos/{legajo}", summary="Obtener recurso por legajo")
@@ -46,21 +52,58 @@ def getRecursosPorLegajo(legajo: int):
 
 
 @app.get("/recursos/{legajo}/registros", summary="Obtener registros de un legajo")
-def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFinal: date | None = None):
-    return crud.get_registro_por_legajo_desde_db(db=db, legajo=legajo, fechaInicio=fechaInicio, fechaFinal=fechaFinal)
+def getRegistrosDeHoras(
+    legajo: int,
+    db: Session = Depends(get_db),
+    fechaInicio: date | None = None,
+    fechaFin: date | None = None,
+):
+    return crud.get_registro_por_legajo_desde_db(
+        db=db, legajo=legajo, fechaInicio=fechaInicio, fechaFin=fechaFin
+    )
 
 
-@app.post("/recursos/{legajo}/registros", response_model=schemas.RegistroDeHoras, summary="Crear un registro de un legajo")
-def postRegistroDeHoras(legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)):
+@app.post(
+    "/recursos/{legajo}/registros",
+    response_model=schemas.RegistroDeHoras,
+    summary="Crear un registro de un legajo",
+)
+def postRegistroDeHoras(
+    legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)
+):
     return crud.post_registro(db=db, legajo=legajo, registro=registro)
 
 
-@app.get("/recursos/{legajo}/registros/{idRegistro}", response_model=schemas.RegistroDeHoras, summary="Obtener un registro de un legajo")
+@app.get(
+    "/recursos/{legajo}/registros/{idRegistro}",
+    response_model=schemas.RegistroDeHoras,
+    summary="Obtener un registro de un legajo",
+)
 def getRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
     return crud.get_registro(db=db, legajo=legajo, idRegistro=idRegistro)
 
 
-@app.delete("/recursos/{legajo}/registros/{idRegistro}", response_model=schemas.RegistroDeHoras, summary="Eliminar un registro de un legajo")
+@app.patch(
+    "/recursos/{legajo}/registros/{idRegistro}",
+    response_model=schemas.RegistroDeHoras,
+    summary="Modificar un registro de un legajo",
+)
+def patchRegistroDeHoras(
+    legajo: int,
+    idRegistro: int,
+    registro: schemas.RegistroDeHorasPatch,
+    db: Session = Depends(get_db),
+):
+    return crud.patch_registro(
+        db, legajo=legajo, idRegistro=idRegistro, registro=registro
+    )
+
+
+@app.delete(
+    "/recursos/{legajo}/registros/{idRegistro}",
+    response_model=schemas.RegistroDeHoras,
+    summary="Eliminar un registro de un legajo",
+)
 def deleteRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
     return crud.delete_registro(db=db, legajo=legajo, idRegistro=idRegistro)
 
@@ -68,9 +111,16 @@ def deleteRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(ge
 @app.exception_handler(Exception)
 def validation_exception_handler(request, err):
     status_code = 400
-    errs_404 = [ProyectoNoExistenteException, TareaNoExistenteException,
-                RecursoNoExistenteException, RegistroNoExistenteException]
+    errs_404 = [
+        ProyectoNoExistenteException,
+        TareaNoExistenteException,
+        RecursoNoExistenteException,
+        RegistroNoExistenteException,
+    ]
     if type(err) in errs_404:
         status_code = 404
     base_error_message = f"Failed to execute: {request.method}: {request.url}"
-    return responses.JSONResponse(status_code=status_code, content={"message": f"{base_error_message}", "detail": f"{err.message}"})
+    return responses.JSONResponse(
+        status_code=status_code,
+        content={"message": f"{base_error_message}", "detail": f"{err.message}"},
+    )
