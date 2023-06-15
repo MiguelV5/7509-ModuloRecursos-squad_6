@@ -36,8 +36,8 @@ def getRecursos():
 
 
 @app.get("/recursos/registros", summary="Obtener todos los registros")
-def getTodosLosRegistrosDeHoras(db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFinal: date | None = None):
-    return crud.get_all_registros_desde_db(db=db, fechaInicio=fechaInicio, fechaFinal=fechaFinal)
+def getTodosLosRegistrosDeHoras(db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFin: date | None = None):
+    return crud.get_all_registros_desde_db(db=db, fechaInicio=fechaInicio, fechaFin=fechaFin)
 
 
 @app.get("/recursos/{legajo}", summary="Obtener recurso por legajo")
@@ -46,8 +46,8 @@ def getRecursosPorLegajo(legajo: int):
 
 
 @app.get("/recursos/{legajo}/registros", summary="Obtener registros de un legajo")
-def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFinal: date | None = None):
-    return crud.get_registro_por_legajo_desde_db(db=db, legajo=legajo, fechaInicio=fechaInicio, fechaFinal=fechaFinal)
+def getRegistrosDeHoras(legajo: int, db: Session = Depends(get_db), fechaInicio: date | None = None, fechaFin: date | None = None):
+    return crud.get_registro_por_legajo_desde_db(db=db, legajo=legajo, fechaInicio=fechaInicio, fechaFin=fechaFin)
 
 
 @app.post("/recursos/{legajo}/registros", response_model=schemas.RegistroDeHoras, summary="Crear un registro de un legajo")
