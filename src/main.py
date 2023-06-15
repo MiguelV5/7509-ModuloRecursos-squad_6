@@ -60,8 +60,8 @@ def getRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_d
     return crud.get_registro(db=db, legajo=legajo, idRegistro=idRegistro)
 
 @app.patch("/recursos/{legajo}/registros/{idRegistro}", response_model=schemas.RegistroDeHoras, summary="Modificar un registro de un legajo")
-def patchRegistroDeHoras(legajo: int, registro: schemas.RegistroDeHorasPatch, db: Session = Depends(get_db)):
-    return crud.patch_registro(db, legajo=legajo, registro=registro)
+def patchRegistroDeHoras(legajo: int, idRegistro: int, registro: schemas.RegistroDeHorasPatch, db: Session = Depends(get_db)):
+    return crud.patch_registro(db, legajo=legajo, idRegistro=idRegistro, registro=registro)
 
 
 @app.delete("/recursos/{legajo}/registros/{idRegistro}", response_model=schemas.RegistroDeHoras, summary="Eliminar un registro de un legajo")
