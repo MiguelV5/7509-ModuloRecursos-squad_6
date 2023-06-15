@@ -1,4 +1,4 @@
-from .exceptions.exceptions import *
+from lib.exceptions import *
 
 # revisar despues de que los de proyectos nos pasen la url
 GET_PROYECTOS_ENDPOINT = "https://[placeholder_for_api_name].render.com/api/proyectos"

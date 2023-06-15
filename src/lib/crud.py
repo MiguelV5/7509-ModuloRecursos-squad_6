@@ -3,7 +3,7 @@ import requests
 from datetime import date
 
 from . import projects_requestor
-from .exceptions.exceptions import *
+from lib.exceptions import *
 from . import models
 from . import schemas
 
@@ -13,6 +13,8 @@ MENSAJE_ROOT = 'PSA API Recursos. Ver documentacion en /docs '
 MAX_HORAS_A_REGISTRAR = 12
 MIN_HORAS_A_REGISTRAR = 1
 # REVISAR VALORES
+
+# ========================= GET: =========================
 
 
 def get_mensaje_root():
@@ -39,6 +41,15 @@ def get_all_registros_desde_db(db: Session):
 
 def get_registro_por_legajo_desde_db(db: Session, legajo: int):
     return db.query(models.RegistroDeHoras).filter(models.RegistroDeHoras.legajo_recurso == legajo).all()
+
+
+def get_registro(db: Session, legajo: int, idRegistro: int):
+    recvd_registro = db.query(models.RegistroDeHoras).filter_by(
+        legajo_recurso=legajo, id=idRegistro).first()
+    if not recvd_registro:
+        raise RegistroNoExistenteException(legajo, idRegistro)
+
+    return recvd_registro
 
 
 # ========================= POST: =========================
@@ -93,8 +104,9 @@ def _check_total_cantidad_de_horas_en_fecha(recvd_registro: models.RegistroDeHor
             if r.fecha_de_registro == recvd_registro.fecha_de_registro:
                 cantidad_total_de_horas_en_fecha += r.cantidad
 
-        if cantidad_total_de_horas_en_fecha >= MAX_HORAS_A_REGISTRAR:
-            raise CantidadDeHorasExcesivasEnJornadaException(recvd_registro.cantidad, recvd_registro.fecha_de_registro, cantidad_total_de_horas_en_fecha, MAX_HORAS_A_REGISTRAR)
+        if (cantidad_total_de_horas_en_fecha + recvd_registro.cantidad) >= MAX_HORAS_A_REGISTRAR:
+            raise CantidadDeHorasExcesivasEnJornadaException(
+                recvd_registro.cantidad, recvd_registro.fecha_de_registro, cantidad_total_de_horas_en_fecha, MAX_HORAS_A_REGISTRAR)
 
 
 def _check_body_registro(recvd_registro: models.RegistroDeHoras, db: Session):
@@ -116,12 +128,8 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.refresh(recvd_registro)
     return recvd_registro
 
-def get_registro(db: Session, legajo: int, idRegistro: int):
-    recvd_registro = db.query(models.RegistroDeHoras).filter_by(legajo_recurso=legajo, id=idRegistro).first()
-    if not recvd_registro:
-        raise RegistroNoExistenteException(legajo, idRegistro)
-    
-    return recvd_registro
+
+# ========================= DEL: =========================
 
 
 def delete_registro(db: Session, legajo: int, idRegistro: int):
