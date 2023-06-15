@@ -17,7 +17,7 @@ class FechaNoValidaException(Exception):
 
     def __init__(self):
         self.message = (
-            "La fecha ingresada no es válida, por favor ingrese una fecha del pasado"
+            "La fecha ingresada no es válida, por favor ingrese la fecha hoy o del pasado"
         )
 
 
