@@ -14,10 +14,10 @@
 
 | Integrantes                                                         |
 | ------------------------------------------------------------------- |
-| [Mauricio Davico](https://github.com/mdavic0)                              |
-| [Mateo Lardiez](https://github.com/Mateolardiez)                        |
+| [Mauricio Davico](https://github.com/mdavic0)                       |
+| [Mateo Lardiez](https://github.com/Mateolardiez)                    |
 | [Ramiro Gestoso](https://github.com/ramirogestoso)                  |
-| [Manuel Dieguez](https://github.com/jmdieguez)              |
+| [Manuel Dieguez](https://github.com/jmdieguez)                      |
 | [Miguel Vasquez](https://github.com/MiguelV5)                       |
 
 
@@ -40,8 +40,8 @@ Ver ```src/requirements.txt```
 
 Se desplegó en [Render](https://render.com/) junto con la base de datos SQLite (su uso viene con la instalación de sqlalchemy). 
 
-La API está desplegada [aquí](https://render.com/) 
-<!-- REEMPLAZAR CON EL URL APROPIADO ^-->
+La API está desplegada [aquí](https://rrhh-squad6-1c2023.onrender.com) 
+
 
 # BDD
 
