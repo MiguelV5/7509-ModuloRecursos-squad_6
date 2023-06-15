@@ -10,7 +10,7 @@ from datetime import date
 
 
 RECURSOS_ENDPOINT = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos"
-MENSAJE_ROOT = 'PSA API Recursos. Ver documentacion en /docs '
+MENSAJE_ROOT = "PSA API Recursos. Ver documentacion en /docs "
 
 MAX_HORAS_A_REGISTRAR = 12
 MIN_HORAS_A_REGISTRAR = 1
@@ -37,41 +37,64 @@ def get_recurso_por_legajo_desde_endpoint(legajo: int):
     raise RecursoNoExistenteException(legajo)
 
 
-def get_all_registros_desde_db(db: Session, fechaInicio: date | None = None, fechaFin: date | None = None):
+def get_all_registros_desde_db(
+    db: Session, fechaInicio: date | None = None, fechaFin: date | None = None
+):
     if fechaFin is None or fechaFin > date.today():
         fechaFin = date.today()
-    
+
     if fechaInicio is None:
         fechaInicio = date.min
 
     if fechaInicio > fechaFin:
         raise FechaInicialMayorAFinalException(fechaInicio, fechaFin)
-    
-    return db.query(RegistroDeHoras).filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin)).order_by(RegistroDeHoras.fecha_de_registro).all()
+
+    return (
+        db.query(RegistroDeHoras)
+        .filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin))
+        .order_by(RegistroDeHoras.fecha_de_registro)
+        .all()
+    )
 
 
-def get_registro_por_legajo_desde_db(db: Session, legajo: int, fechaInicio: date | None = None, fechaFin: date | None = None):
+def get_registro_por_legajo_desde_db(
+    db: Session,
+    legajo: int,
+    fechaInicio: date | None = None,
+    fechaFin: date | None = None,
+):
     if fechaFin is None:
         fechaFin = date.today()
-    
+
     if fechaInicio is None:
         fechaInicio = date.min
 
     if fechaInicio > fechaFin:
         raise FechaInicialMayorAFinalException(fechaInicio, fechaFin)
 
-    return db.query(RegistroDeHoras).filter(RegistroDeHoras.legajo_recurso == legajo).filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin)).order_by(RegistroDeHoras.fecha_de_registro).all()
+    return (
+        db.query(RegistroDeHoras)
+        .filter(RegistroDeHoras.legajo_recurso == legajo)
+        .filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin))
+        .order_by(RegistroDeHoras.fecha_de_registro)
+        .all()
+    )
 
 
 def get_registro(db: Session, legajo: int, idRegistro: int):
-    recvd_registro = db.query(RegistroDeHoras).filter_by(
-        legajo_recurso=legajo, id=idRegistro).first()
+    recvd_registro = (
+        db.query(RegistroDeHoras)
+        .filter_by(legajo_recurso=legajo, id=idRegistro)
+        .first()
+    )
     if not recvd_registro:
         raise RegistroNoExistenteException(legajo, idRegistro)
 
     return recvd_registro
 
+
 # ========================= POST: =========================
+
 
 def _parse_projects_ids_to_list(projects: list):
     projects_ids = []
@@ -109,19 +132,34 @@ def _check_cantidad_de_horas_del_registro_recibido(recvd_registro: RegistroDeHor
         raise CantidadDeHorasExcesivasException(MAX_HORAS_A_REGISTRAR)
 
 
-def _check_total_cantidad_de_horas_en_fecha(recvd_registro: RegistroDeHoras, db: Session):
+def _check_total_cantidad_de_horas_en_fecha(
+    recvd_registro: RegistroDeHoras, db: Session
+):
     registros_misma_fecha: list = get_registro_por_legajo_desde_db(
-        db, recvd_registro.legajo_recurso,  recvd_registro.fecha_de_registro, recvd_registro.fecha_de_registro)
+        db,
+        recvd_registro.legajo_recurso,
+        recvd_registro.fecha_de_registro,
+        recvd_registro.fecha_de_registro,
+    )
 
-    cantidad_total_de_horas_en_fecha = sum(registro.cantidad for registro in registros_misma_fecha if registro.id != recvd_registro.id)
+    cantidad_total_de_horas_en_fecha = sum(
+        registro.cantidad
+        for registro in registros_misma_fecha
+        if registro.id != recvd_registro.id
+    )
 
-    if (cantidad_total_de_horas_en_fecha + recvd_registro.cantidad) > MAX_HORAS_A_REGISTRAR:
+    if (
+        cantidad_total_de_horas_en_fecha + recvd_registro.cantidad
+    ) > MAX_HORAS_A_REGISTRAR:
         raise CantidadDeHorasExcesivasEnJornadaException(
-            recvd_registro.cantidad, recvd_registro.fecha_de_registro, cantidad_total_de_horas_en_fecha, MAX_HORAS_A_REGISTRAR)
+            recvd_registro.cantidad,
+            recvd_registro.fecha_de_registro,
+            cantidad_total_de_horas_en_fecha,
+            MAX_HORAS_A_REGISTRAR,
+        )
 
 
 def _check_body_registro(recvd_registro: RegistroDeHoras, db: Session):
-
     _check_fecha_recibida_es_valida(recvd_registro)
     _check_cantidad_de_horas_del_registro_recibido(recvd_registro)
     _check_existencia_de_proyecto_y_tarea(recvd_registro)
@@ -129,8 +167,7 @@ def _check_body_registro(recvd_registro: RegistroDeHoras, db: Session):
 
 
 def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCreate):
-    recvd_registro = RegistroDeHoras(
-        **registro.dict(), legajo_recurso=legajo)
+    recvd_registro = RegistroDeHoras(**registro.dict(), legajo_recurso=legajo)
 
     _check_body_registro(recvd_registro, db)
 
@@ -139,11 +176,13 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.refresh(recvd_registro)
     return recvd_registro
 
-def patch_registro(db: Session, legajo: int, idRegistro: int, registro: schemas.RegistroDeHorasPatch):
+
+def patch_registro(
+    db: Session, legajo: int, idRegistro: int, registro: schemas.RegistroDeHorasPatch
+):
     if not any(registro.dict().values()):
         raise RegistroVacioException(list(registro.dict().keys()))
-    
-    
+
     recvd_registro = get_registro(db, legajo, idRegistro)
     for key, value in registro.dict().items():
         if value is None:
@@ -157,8 +196,8 @@ def patch_registro(db: Session, legajo: int, idRegistro: int, registro: schemas.
     return recvd_registro
 
 
-
 # ========================= DEL: =========================
+
 
 def delete_registro(db: Session, legajo: int, idRegistro: int):
     recvd_registro = get_registro(db, legajo, idRegistro)
