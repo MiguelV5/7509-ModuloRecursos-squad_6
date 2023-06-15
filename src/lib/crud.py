@@ -131,7 +131,6 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
 
 # ========================= DEL: =========================
 
-
 def delete_registro(db: Session, legajo: int, idRegistro: int):
     recvd_registro = get_registro(db, legajo, idRegistro)
     db.delete(recvd_registro)
