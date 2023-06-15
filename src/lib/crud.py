@@ -57,6 +57,9 @@ def get_registro_por_legajo_desde_db(db: Session, legajo: int, fechaInicio: date
     if fechaInicio is None:
         fechaInicio = date.min
 
+    if fechaInicio > fechaFinal:
+        raise FechaInicialMayorAFinalException(fechaInicio, fechaFinal)
+
     return db.query(RegistroDeHoras).filter(RegistroDeHoras.legajo_recurso == legajo).filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFinal)).order_by(RegistroDeHoras.fecha_de_registro).all()
 
 
