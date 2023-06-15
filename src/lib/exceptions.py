@@ -52,3 +52,9 @@ class CantidadDeHorasExcesivasEnJornadaException(Exception):
 
     def __init__(self, horasACargar, fecha, horasEnFecha, maxHoras):
         self.message = f"Con la cantidad de horas a cargar dada (horas: {horasACargar}), el recurso tendría una cantidad excesiva de horas cargadas en la fecha (fecha: {fecha}, cantidad de horas cargadas previamente en la fecha: {horasEnFecha}, cantidad maxima de una fecha: {maxHoras})"
+
+class FechaInicialMayorAFinalException(Exception):
+    message = ""
+
+    def __init__(self, fechaInicio, fechaFinal):
+        self.message = f"La fecha de inicio: {fechaInicio} debe ser menor o igual a la fecha final: {fechaFinal}"
