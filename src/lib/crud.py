@@ -110,14 +110,10 @@ def _check_cantidad_de_horas_del_registro_recibido(recvd_registro: RegistroDeHor
 
 
 def _check_total_cantidad_de_horas_en_fecha(recvd_registro: RegistroDeHoras, db: Session):
-    registros_filtrados_de_db: list = get_registro_por_legajo_desde_db(
+    registros_misma_fecha: list = get_registro_por_legajo_desde_db(
         db, recvd_registro.legajo_recurso,  recvd_registro.fecha_de_registro, recvd_registro.fecha_de_registro)
 
-    cantidad_total_de_horas_en_fecha = 0
-    for r in registros_filtrados_de_db:
-        if r.id == recvd_registro.id:
-            continue 
-        cantidad_total_de_horas_en_fecha += r.cantidad
+    cantidad_total_de_horas_en_fecha = sum(registro.cantidad for registro in registros_misma_fecha if registro.id != recvd_registro.id)
 
     if (cantidad_total_de_horas_en_fecha + recvd_registro.cantidad) > MAX_HORAS_A_REGISTRAR:
         raise CantidadDeHorasExcesivasEnJornadaException(
