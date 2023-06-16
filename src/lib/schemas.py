@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Union
 import datetime
 
 
@@ -14,10 +15,10 @@ class RegistroDeHorasCreate(RegistroDeHorasBase):
 
 
 class RegistroDeHorasPatch(BaseModel):
-    cantidad: int | None = None
-    fecha_de_registro: datetime.date | None = None
-    id_proyecto: int | None = None
-    id_tarea: int | None = None
+    cantidad: Union[int, None] = None
+    fecha_de_registro: Union[datetime.date, None] = None
+    id_proyecto: Union[int, None] = None
+    id_tarea: Union[int, None] = None
 
 
 class RegistroDeHoras(RegistroDeHorasBase):

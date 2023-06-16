@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 import requests
 from datetime import date
-
+from typing import Union
 from . import projects_requestor
 from lib.exceptions import *
 from .models import RegistroDeHoras
@@ -38,7 +38,7 @@ def get_recurso_por_legajo_desde_endpoint(legajo: int):
 
 
 def get_all_registros_desde_db(
-    db: Session, fechaInicio: date | None = None, fechaFin: date | None = None
+    db: Session, fechaInicio: Union[date, None] = None, fechaFin: Union[date, None] = None
 ):
     if fechaFin is None or fechaFin > date.today():
         fechaFin = date.today()
@@ -60,8 +60,8 @@ def get_all_registros_desde_db(
 def get_registro_por_legajo_desde_db(
     db: Session,
     legajo: int,
-    fechaInicio: date | None = None,
-    fechaFin: date | None = None,
+    fechaInicio: Union[date, None] = None,
+    fechaFin: Union[date, None] = None,
 ):
     
     _check_existe_recurso(legajo)

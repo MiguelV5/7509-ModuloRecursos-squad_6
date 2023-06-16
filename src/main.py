@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, responses
 
 from lib import crud, models
-
+from typing import Union
 from lib import schemas
 from lib.database import SessionLocal, engine
 from lib.exceptions import *
@@ -38,8 +38,8 @@ def getRecursos():
 @app.get("/recursos/registros", summary="Obtener todos los registros")
 def getTodosLosRegistrosDeHoras(
     db: Session = Depends(get_db),
-    fechaInicio: date | None = None,
-    fechaFin: date | None = None,
+    fechaInicio: Union[date, None] = None,
+    fechaFin: Union[date, None] = None,
 ):
     return crud.get_all_registros_desde_db(
         db=db, fechaInicio=fechaInicio, fechaFin=fechaFin
@@ -55,8 +55,8 @@ def getRecursosPorLegajo(legajo: int):
 def getRegistrosDeHoras(
     legajo: int,
     db: Session = Depends(get_db),
-    fechaInicio: date | None = None,
-    fechaFin: date | None = None,
+    fechaInicio: Union[date, None] = None,
+    fechaFin: Union[date, None] = None,
 ):
     return crud.get_registro_por_legajo_desde_db(
         db=db, legajo=legajo, fechaInicio=fechaInicio, fechaFin=fechaFin
