@@ -120,6 +120,18 @@ def step_impl(context):
     context.legajo = 1
     pass
 
+@then("la carga de horas es satisfactoria")
+def step_impl(context):
+    try:
+        resultado = requests.post(
+            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
+        )
+
+        assert(resultado.id > 0)
+
+    except Exception:
+        return False
+
 @when('cargo una cantidad de horas negativas')
 def step_impl(context):
     context.registro = {
