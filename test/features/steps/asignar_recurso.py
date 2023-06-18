@@ -40,7 +40,7 @@ BASE_URL = "http://localhost:8000"
 
 
 @when("cargo una cantidad de horas trabajadas y no selecciono una tarea")
-def step_consulto_recursos(context):
+def step_impl(context):
     context.registro = {
         "cantidad": 1,
         "fecha_de_registro": "2020-01-01",
@@ -51,7 +51,7 @@ def step_consulto_recursos(context):
 
 
 @then("recibo un error por no seleccionar una tarea")
-def step_verificar_recursos(context):
+def step_impl(context):
     try:
         requests.post(
             url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
@@ -63,7 +63,7 @@ def step_verificar_recursos(context):
 
 
 @when("cargo una cantidad de horas trabajadas y selecciono una tarea")
-def step_consulto_recursos(context):
+def step_impl(context):
     context.registro = {
         "cantidad": 2,
         "fecha_de_registro": "2020-01-01",
@@ -75,7 +75,7 @@ def step_consulto_recursos(context):
 
 
 @then("la carga de horas a la tarea es satisfactoria")
-def step_verificar_recursos(context):
+def step_impl(context):
     try:
         resultado = requests.post(
             url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
@@ -88,7 +88,7 @@ def step_verificar_recursos(context):
 
 
 @when('cargo una cantidad de horas excesiva')
-def step_consulto_recursos(context):
+def step_impl(context):
     context.registro = {
         "cantidad": 13,
         "fecha_de_registro": "2020-02-01",
@@ -99,7 +99,7 @@ def step_consulto_recursos(context):
     pass
 
 @then('recibo un error por exceso de horas')
-def step_verificar_recursos(context):
+def step_impl(context):
     try:
         requests.post(
             url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
@@ -110,7 +110,7 @@ def step_verificar_recursos(context):
     return False
 
 @when('cargo una cantidad de horas adecuadas')
-def step_consulto_recursos(context):
+def step_impl(context):
     context.registro = {
         "cantidad": 4,
         "fecha_de_registro": "2020-02-01",
@@ -121,7 +121,7 @@ def step_consulto_recursos(context):
     pass
 
 @when('cargo una cantidad de horas negativas')
-def step_consulto_recursos(context):
+def step_impl(context):
     context.registro = {
         "cantidad": -2,
         "fecha_de_registro": "2020-02-01",
@@ -131,7 +131,7 @@ def step_consulto_recursos(context):
     context.legajo = 1
 
 @then('recibo un error por carga de horas menor a cero')
-def step_verificar_recursos(context):
+def step_impl(context):
     try:
         requests.post(
             url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro

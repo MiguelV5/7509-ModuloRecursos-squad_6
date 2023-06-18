@@ -18,12 +18,12 @@ Feature: Asignar horas de recurso a tareas
         When cargo una cantidad de horas excesiva
         Then recibo un error por exceso de horas
 
-    # Scenario: Asignar cantidad de horas adecuadas
-    #     Given soy un usuario
-    #     When cargo una cantidad de horas adecuadas
-    #     Then la carga de horas es satisfactoria
+    Scenario: Asignar cantidad de horas adecuadas
+        Given soy un usuario
+        When cargo una cantidad de horas adecuadas
+        Then la carga de horas es satisfactoria
 
-    # Scenario: Asignar horas negativas
-    #     Given soy un usuario
-    #     When cargo una cantidad de horas negativas
-    #     Then recibo un error por carga de horas menor a cero
+    Scenario: Asignar horas negativas
+        Given soy un usuario
+        When cargo una cantidad de horas negativas
+        Then recibo un error por carga de horas menor a cero

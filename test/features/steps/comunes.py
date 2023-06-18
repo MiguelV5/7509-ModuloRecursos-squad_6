@@ -1,5 +1,5 @@
 from behave import *
 
 @given('soy un usuario')
-def step(context):
+def step_impl(context):
     pass
