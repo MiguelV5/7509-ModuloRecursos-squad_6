@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Depends, responses
 
-from lib import crud, models
+from src.lib import crud, models
 from typing import Union
-from lib import schemas
-from lib.database import SessionLocal, engine
-from lib.exceptions import *
+from src.lib import schemas
+from src.lib.database import SessionLocal, engine
+from src.lib.exceptions import *
 from sqlalchemy.orm import Session
 from datetime import date
 
