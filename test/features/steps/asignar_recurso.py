@@ -109,14 +109,34 @@ def step_verificar_recursos(context):
 
     return False
 
-# @when('cargo una cantidad de horas adecuadas')
-# def step_consulto_recursos(context):
-#     pass
+@when('cargo una cantidad de horas adecuadas')
+def step_consulto_recursos(context):
+    context.registro = {
+        "cantidad": 4,
+        "fecha_de_registro": "2020-02-01",
+        "id_proyecto": 1,
+        "id_tarea": 1,
+    }
+    context.legajo = 1
+    pass
 
-# @when('cargo una cantidad de horas negativas')
-# def step_consulto_recursos(context):
-#     pass
+@when('cargo una cantidad de horas negativas')
+def step_consulto_recursos(context):
+    context.registro = {
+        "cantidad": -2,
+        "fecha_de_registro": "2020-02-01",
+        "id_proyecto": 1,
+        "id_tarea": 1,
+    }
+    context.legajo = 1
 
-# @then('recibo un error por carga de horas menor a cero')
-# def step_verificar_recursos(context):
-#     pass
+@then('recibo un error por carga de horas menor a cero')
+def step_verificar_recursos(context):
+    try:
+        requests.post(
+            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
+        )
+    except Exception as e:
+        assert(e.type == CANTIDAD_HORAS_NULAS)
+
+    return False
