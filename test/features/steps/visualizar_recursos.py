@@ -13,10 +13,6 @@ Feature: Visualizar recursos
 from behave import *
 from src.lib import crud
 
-@given('soy un usuario')
-def step(context):
-    pass
-
 @when('consulto los recursos y hay recursos disponibles')
 def step_consulto_recursos(context):
     context.recursos = crud.get_recursos_desde_endpoint()
