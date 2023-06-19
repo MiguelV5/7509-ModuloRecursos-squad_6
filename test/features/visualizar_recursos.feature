@@ -6,4 +6,4 @@ Feature: Visualizar recursos
     Scenario: Ver recursos satisfactoriamente
         Given soy un usuario
         When consulto los recursos y hay recursos disponibles
-        Then puedo ver información de todos los recursos
+        Then recibo una lista de todos los recursos
