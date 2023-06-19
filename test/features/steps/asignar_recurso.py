@@ -31,19 +31,18 @@ Feature: Asignar horas de recurso a tareas
 """
 
 from behave import *
-
+from utils import random_date
 import requests
 from requests.exceptions import InvalidSchema
 from src.lib.exceptions import *
 
 BASE_URL = "http://localhost:8000"
 
-
 @when("cargo una cantidad de horas trabajadas y no selecciono una tarea")
 def step_impl(context):
     context.registro = {
         "cantidad": 2,
-        "fecha_de_registro": "2020-01-01",
+        "fecha_de_registro": random_date(),
         "id_proyecto": 1,
     }
     context.legajo = 1
@@ -61,8 +60,8 @@ def step_impl(context):
 @when("cargo una cantidad de horas trabajadas y selecciono una tarea")
 def step_impl(context):
     context.registro = {
-        "cantidad": 2,
-        "fecha_de_registro": "2020-01-01",
+        "cantidad": 12,
+        "fecha_de_registro": random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -84,7 +83,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": 13,
-        "fecha_de_registro": "2020-02-01",
+        "fecha_de_registro": random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -105,7 +104,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": 4,
-        "fecha_de_registro": "2020-02-01",
+        "fecha_de_registro": random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -128,7 +127,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": -2,
-        "fecha_de_registro": "2020-02-01",
+        "fecha_de_registro": random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
