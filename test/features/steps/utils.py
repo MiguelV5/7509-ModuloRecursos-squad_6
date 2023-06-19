@@ -51,6 +51,7 @@ def cargar_registro(legajo):
 def eliminar_registro(legajo, id):
     return requests.delete(url=f"{BASE_URL}/recursos/{legajo}/registros/{id}")
 
+
 def get_recursos():
     url = f"{BASE_URL}/recursos"
     return requests.get(url)

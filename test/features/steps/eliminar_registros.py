@@ -23,6 +23,7 @@ import requests
 
 BASE_URL = "http://localhost:8000"
 
+
 @when("elimino un registro de horas")
 def step_impl(context):
     context.legajo = 1
@@ -32,9 +33,11 @@ def step_impl(context):
 
 @then("el registro no existe mas")
 def step_impl(context):
-    response = requests.get(url=f"{BASE_URL}/recursos/{context.legajo}/registros/{context.id}")
+    response = requests.get(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros/{context.id}")
 
     assert context.response.status_code == 200 and response.status_code == 404
+
 
 @when("intento eliminar un registro inexistente para un legajo")
 def step_impl(context):

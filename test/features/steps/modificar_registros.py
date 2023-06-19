@@ -23,6 +23,7 @@ import requests
 
 BASE_URL = "http://localhost:8000"
 
+
 @when("cargo un registro de horas")
 def step_impl(context):
     context.legajo = 1
@@ -41,6 +42,7 @@ def step_impl(context):
         url=f"{BASE_URL}/recursos/{context.legajo}/registros/{context.id}", json=registro
     )
     assert response.status_code == 200
+
 
 @when("intento modificar un registro pero no informo ningún dato")
 def step_impl(context):

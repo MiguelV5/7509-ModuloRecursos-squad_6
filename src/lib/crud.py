@@ -63,7 +63,7 @@ def get_registro_por_legajo_desde_db(
     fechaInicio: Union[date, None] = None,
     fechaFin: Union[date, None] = None,
 ):
-    
+
     _check_existe_recurso(legajo)
 
     if fechaFin is None:
@@ -98,6 +98,7 @@ def get_registro(db: Session, legajo: int, idRegistro: int):
         raise RegistroNoExistenteException(legajo, idRegistro)
 
     return recvd_registro
+
 
 def _check_existe_recurso(legajo: int):
     get_recurso_por_legajo_desde_endpoint(legajo)

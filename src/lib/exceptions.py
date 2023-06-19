@@ -11,13 +11,13 @@ CANTIDAD_HORAS_EXCESIVAS_EN_JORNADA = auto()
 FECHA_INICIAL_MAYOR = auto()
 REGISTRO_VACIO = auto()
 
+
 class RecursoNoExistenteException(Exception):
     message = ""
     type = RECURSO_NO_EXISTE
 
     def __init__(self, id):
         self.message = f"Recurso no encontrado: {id}"
-        
 
 
 class RegistroNoExistenteException(Exception):

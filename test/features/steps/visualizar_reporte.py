@@ -40,9 +40,10 @@ def step_impl(context):
     context.legajo = 2
     utils.cargar_horas(context.legajo)
 
+
 @then('recibo una lista de las cargas de horas del recurso')
 def step_impl(context):
     url = f"{BASE_URL}/recursos/{context.legajo}/registros"
     response = requests.get(url)
     json_response = response.json()
-    assert len(json_response) > 0 
+    assert len(json_response) > 0

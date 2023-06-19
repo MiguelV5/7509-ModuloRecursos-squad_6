@@ -122,5 +122,6 @@ def validation_exception_handler(request, err):
     base_error_message = f"Failed to execute: {request.method}: {request.url}"
     return responses.JSONResponse(
         status_code=status_code,
-        content={"message": f"{base_error_message}", "detail": f"{err.message}"},
+        content={"message": f"{base_error_message}",
+                 "detail": f"{err.message}"},
     )
