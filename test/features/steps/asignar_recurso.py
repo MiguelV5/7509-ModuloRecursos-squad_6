@@ -46,7 +46,7 @@ def step_impl(context):
         "id_proyecto": 1,
     }
     context.legajo = 1
-    pass
+
 
 
 @then("recibo un error por no seleccionar una tarea")
@@ -66,7 +66,7 @@ def step_impl(context):
         "id_tarea": 1,
     }
     context.legajo = 1
-    pass
+
 
 
 @then("la carga de horas a la tarea es satisfactoria")
@@ -88,7 +88,7 @@ def step_impl(context):
         "id_tarea": 1,
     }
     context.legajo = 1
-    pass
+
 
 
 @then("recibo un error por exceso de horas")
@@ -109,7 +109,7 @@ def step_impl(context):
         "id_tarea": 1,
     }
     context.legajo = 1
-    pass
+
 
 
 @then("la carga de horas es satisfactoria")
