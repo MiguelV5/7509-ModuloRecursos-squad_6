@@ -42,7 +42,7 @@ BASE_URL = "http://localhost:8000"
 @when("cargo una cantidad de horas trabajadas y no selecciono una tarea")
 def step_impl(context):
     context.registro = {
-        "cantidad": 1,
+        "cantidad": 2,
         "fecha_de_registro": "2020-01-01",
         "id_proyecto": 1,
     }
@@ -52,14 +52,10 @@ def step_impl(context):
 
 @then("recibo un error por no seleccionar una tarea")
 def step_impl(context):
-    try:
-        requests.post(
-            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
-        )
-    except InvalidSchema:
-        return True
-
-    return False
+    response = requests.post(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros", json=context.registro
+    )
+    assert response.status_code == 422
 
 
 @when("cargo una cantidad de horas trabajadas y selecciono una tarea")
@@ -76,18 +72,15 @@ def step_impl(context):
 
 @then("la carga de horas a la tarea es satisfactoria")
 def step_impl(context):
-    try:
-        resultado = requests.post(
-            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
-        )
+    response = requests.post(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros", json=context.registro
+    )
+    json_response = response.json()
 
-        assert(resultado.id > 0)
-
-    except Exception:
-        return False
+    assert response.status_code == 200 and json_response["id"] > 0      
 
 
-@when('cargo una cantidad de horas excesiva')
+@when("cargo una cantidad de horas excesiva")
 def step_impl(context):
     context.registro = {
         "cantidad": 13,
@@ -98,18 +91,17 @@ def step_impl(context):
     context.legajo = 1
     pass
 
-@then('recibo un error por exceso de horas')
+
+@then("recibo un error por exceso de horas")
 def step_impl(context):
-    try:
-        requests.post(
-            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
-        )
-    except Exception as e:
-        assert(e.type == CANTIDAD_HORAS_EXCESIVAS)
+    response = requests.post(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros", json=context.registro
+    )
 
-    return False
+    assert response.status_code == 400
 
-@when('cargo una cantidad de horas adecuadas')
+
+@when("cargo una cantidad de horas adecuadas")
 def step_impl(context):
     context.registro = {
         "cantidad": 4,
@@ -120,19 +112,19 @@ def step_impl(context):
     context.legajo = 1
     pass
 
+
 @then("la carga de horas es satisfactoria")
 def step_impl(context):
-    try:
-        resultado = requests.post(
-            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
-        )
+    response = requests.post(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros", json=context.registro
+    )
 
-        assert(resultado.id > 0)
+    json_response = response.json()
 
-    except Exception:
-        return False
+    assert response.status_code == 200 and json_response["id"] > 0
 
-@when('cargo una cantidad de horas negativas')
+
+@when("cargo una cantidad de horas negativas")
 def step_impl(context):
     context.registro = {
         "cantidad": -2,
@@ -142,13 +134,11 @@ def step_impl(context):
     }
     context.legajo = 1
 
-@then('recibo un error por carga de horas menor a cero')
-def step_impl(context):
-    try:
-        requests.post(
-            url=f"{BASE_URL}/recursos/{context.legajo}/registros", data=context.registro
-        )
-    except Exception as e:
-        assert(e.type == CANTIDAD_HORAS_NULAS)
 
-    return False
+@then("recibo un error por carga de horas menor a cero")
+def step_impl(context):
+    response = requests.post(
+        url=f"{BASE_URL}/recursos/{context.legajo}/registros", json=context.registro
+    )
+
+    assert response.status_code == 400
