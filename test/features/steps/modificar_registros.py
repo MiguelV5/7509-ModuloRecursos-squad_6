@@ -23,24 +23,10 @@ import requests
 
 BASE_URL = "http://localhost:8000"
 
-def cargar_registro(legajo):
-    registro = {
-        "cantidad": 2,
-        "fecha_de_registro": utils.random_date(),
-        "id_proyecto": 1,
-        "id_tarea": 1
-    }
-
-    response = requests.post(
-        url=f"{BASE_URL}/recursos/{legajo}/registros", json=registro
-    )
-
-    return response.json()["id"]
-
 @when("cargo un registro de horas")
 def step_impl(context):
     context.legajo = 1
-    context.id = cargar_registro(context.legajo)
+    context.id = utils.cargar_registro(context.legajo)
 
 
 @then("puedo modificar datos como: cantidad de horas, fecha, proyecto y tarea")
@@ -59,7 +45,7 @@ def step_impl(context):
 @when("intento modificar un registro pero no informo ningún dato")
 def step_impl(context):
     legajo = 1
-    id = cargar_registro(legajo)
+    id = utils.cargar_registro(legajo)
     registro = {}
     context.response = requests.patch(
         url=f"{BASE_URL}/recursos/{legajo}/registros/{id}", json=registro
