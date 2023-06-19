@@ -31,9 +31,8 @@ Feature: Asignar horas de recurso a tareas
 """
 
 from behave import *
-from utils import random_date
+import utils
 import requests
-from requests.exceptions import InvalidSchema
 from src.lib.exceptions import *
 
 BASE_URL = "http://localhost:8000"
@@ -42,7 +41,7 @@ BASE_URL = "http://localhost:8000"
 def step_impl(context):
     context.registro = {
         "cantidad": 2,
-        "fecha_de_registro": random_date(),
+        "fecha_de_registro": utils.random_date(),
         "id_proyecto": 1,
     }
     context.legajo = 1
@@ -61,7 +60,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": 12,
-        "fecha_de_registro": random_date(),
+        "fecha_de_registro": utils.random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -83,7 +82,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": 13,
-        "fecha_de_registro": random_date(),
+        "fecha_de_registro": utils.random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -104,7 +103,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": 4,
-        "fecha_de_registro": random_date(),
+        "fecha_de_registro": utils.random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
@@ -127,7 +126,7 @@ def step_impl(context):
 def step_impl(context):
     context.registro = {
         "cantidad": -2,
-        "fecha_de_registro": random_date(),
+        "fecha_de_registro": utils.random_date(),
         "id_proyecto": 1,
         "id_tarea": 1,
     }
