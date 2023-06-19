@@ -30,3 +30,7 @@ def cargar_horas(legajo):
             "id_tarea": 1
         }
         requests.post(url, json=registro)
+
+def get_recursos():
+    url = f"{BASE_URL}/recursos"
+    return requests.get(url)

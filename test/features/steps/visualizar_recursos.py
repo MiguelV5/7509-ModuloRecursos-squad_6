@@ -11,11 +11,11 @@ Feature: Visualizar recursos
 '''
 
 from behave import *
-from src.lib import crud
+import utils
 
 @when('consulto los recursos y hay recursos disponibles')
 def step_impl(context):
-    context.recursos = crud.get_recursos_desde_endpoint()
+    context.recursos = utils.get_recursos().json()
 
 @then('recibo una lista de todos los recursos')
 def step_impl(context):
