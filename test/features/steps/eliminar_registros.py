@@ -41,8 +41,3 @@ def step_impl(context):
     context.legajo = 1
     context.id = utils.cargar_registro(context.legajo).json()["id"]
     context.response = utils.eliminar_registro(context.legajo, context.id + 1)
-
-
-@then("recibo un error de no existencia")
-def step_impl(context):
-    assert context.response.status_code == 404
