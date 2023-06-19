@@ -3,7 +3,7 @@ import requests
 from datetime import date
 from typing import Union
 from . import projects_requestor
-from lib.exceptions import *
+from src.lib.exceptions import *
 from .models import RegistroDeHoras
 from . import schemas
 from datetime import date
