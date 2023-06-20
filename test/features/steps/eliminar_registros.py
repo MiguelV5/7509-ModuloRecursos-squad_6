@@ -2,7 +2,7 @@
 Feature: Modificar registros
 
         Como usuario quiero poder eliminar un registro
-        de horas ya cargado para corregir datos en caso de 
+        de horas ya cargado para corregir datos en caso de
         una carga incorrecta
 
     Scenario: Eliminación satisfactoria

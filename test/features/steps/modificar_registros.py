@@ -1,8 +1,8 @@
 """
 Feature: Modificar registros
 
-        Como usuario quiero poder modificar un registro 
-        de horas ya cargado para corregir datos en caso 
+        Como usuario quiero poder modificar un registro
+        de horas ya cargado para corregir datos en caso
         de una carga con errores
 
     Scenario: Modificación satisfactoria
@@ -13,7 +13,7 @@ Feature: Modificar registros
     Scenario: Modificación fallida
         Given soy un usuario
         When intento modificar un registro pero no informo ningún dato
-        Then recibo un error 
+        Then recibo un error
 """
 
 from behave import *

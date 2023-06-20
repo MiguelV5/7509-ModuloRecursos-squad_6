@@ -6,7 +6,6 @@ from . import projects_requestor
 from src.lib.exceptions import *
 from .models import RegistroDeHoras
 from . import schemas
-from datetime import date
 
 
 RECURSOS_ENDPOINT = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos"

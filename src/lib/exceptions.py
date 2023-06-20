@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import auto
 
 RECURSO_NO_EXISTE = auto()
 REGISTRO_NO_EXISTE = auto()
