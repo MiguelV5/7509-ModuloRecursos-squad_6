@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, responses
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.lib import crud, models
 from typing import Union
@@ -12,6 +13,21 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 # Dependency
+
+# Define the allowed origins (frontend URLs)
+origins = [
+    "http://localhost:3000",
+    # Add more origins as needed
+]
+
+# Add CORS middleware to your app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_db():
