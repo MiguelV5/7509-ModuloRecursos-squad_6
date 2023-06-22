@@ -52,9 +52,14 @@ Instalar librería behave
 pip install behave
 ```
 
-Para correr los tests, posicionarse en el directorio feature y ejecutar el siguiente comando en la consola
+Para correr los tests singularmente, posicionarse en el directorio /test/features/ y ejecutar el siguiente comando en la consola:
 ```bash
-behave file.feature
+$ behave <test>.feature
+```
+
+Alternativamente se pueden correr todos los tests a la vez, ejecutando desde la raíz del directorio:
+```bash
+$ behave test\features
 ```
 
 # APIs externas con las que se interactua
