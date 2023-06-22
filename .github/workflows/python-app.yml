@@ -25,8 +25,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run main.py
-        run: py -m uvicorn src.main:app --reload &
-        sleep 5
+        run: |
+          py -m uvicorn src.main:app --reload &
+          sleep 5
         id: main
 
       - name: Run feature tests
