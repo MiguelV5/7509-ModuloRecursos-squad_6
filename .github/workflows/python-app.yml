@@ -30,7 +30,7 @@ jobs:
 
       - name: Run feature tests
         run: |
-          cd test/features
+          cd src/test/features
           behave
         continue-on-error: true
 
