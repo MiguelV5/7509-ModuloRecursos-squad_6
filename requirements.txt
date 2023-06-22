@@ -3,3 +3,4 @@ fastapi==0.97.0
 uvicorn[standard]==0.22.0
 sqlalchemy==2.0.16
 python-multipart==0.0.6
+behave==1.2.6
