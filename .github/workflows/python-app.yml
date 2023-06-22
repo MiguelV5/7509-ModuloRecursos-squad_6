@@ -25,13 +25,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run main.py
-        run: python src/main.py &
+        run: py -m uvicorn src.main:app --reload &
         id: main
 
       - name: Run feature tests
         run: |
-          cd src/test/features
-          behave
+          behave test/features
         continue-on-error: true
 
       - name: Wait for main.py to finish
