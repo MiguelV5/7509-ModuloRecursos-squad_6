@@ -28,9 +28,9 @@ jobs:
         run: |
           echo "PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/src" >> $GITHUB_ENV
 
-      - name: Run main.py
+      - name: Run FastAPI server
         run: |
-         python -m uvicorn src.main:app --reload &
+         python -m uvicorn src.main:app --port 8000 --reload &
          sleep 5
         id: main
 
@@ -39,5 +39,10 @@ jobs:
           behave test/features
         continue-on-error: true
 
-      - name: Wait for main.py to finish
-        run: wait $!
+      - name: Stop FastAPI server
+        run: |
+          pid=$(lsof -t -i:8000)
+          if [ -n "$pid" ]; then
+            kill $pid
+          fi
+
