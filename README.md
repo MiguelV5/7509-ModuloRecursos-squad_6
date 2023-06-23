@@ -37,7 +37,7 @@ python3 -m uvicorn src.main:app --reload
 Para la implementación de la API se utilizó el framework [FastAPI](https://fastapi.tiangolo.com/).
 
 
-# Despliegue
+## Despliegue
 
 Se desplegó en [Render](https://render.com/) junto con la base de datos SQLite (su uso viene con la instalación de sqlalchemy). 
 
@@ -46,7 +46,7 @@ La API está desplegada [aquí](https://rrhh-squad6-1c2023.onrender.com).
 Para ver documentación de la misma se utiliza swagger. Se puede visualizar accediendo al [endpoint de docs](https://rrhh-squad6-1c2023.onrender.com/docs). 
 
 
-# BDD
+## BDD
 
 Se utlizó la libreria [behave](https://behave.readthedocs.io/en/latest/) para los tests de Gherkin en Python
 
