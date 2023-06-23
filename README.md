@@ -23,6 +23,10 @@
 
 ---
 
+## Dependencias
+
+Ver ```requirements.txt```
+
 ## Ejecución local
 
 ```bash
@@ -30,17 +34,16 @@ python3 -m uvicorn src.main:app --reload
 ```
 ## API REST
 
-Para la implementación de la API se utilizó el framework [FastAPI](https://fastapi.tiangolo.com/) 
+Para la implementación de la API se utilizó el framework [FastAPI](https://fastapi.tiangolo.com/).
 
-## Dependencias
-
-Ver ```src/requirements.txt```
 
 # Despliegue
 
 Se desplegó en [Render](https://render.com/) junto con la base de datos SQLite (su uso viene con la instalación de sqlalchemy). 
 
-La API está desplegada [aquí](https://rrhh-squad6-1c2023.onrender.com) 
+La API está desplegada [aquí](https://rrhh-squad6-1c2023.onrender.com).
+
+Para ver documentación de la misma se utiliza swagger. Se puede visualizar accediendo al [endpoint de docs](https://rrhh-squad6-1c2023.onrender.com/docs). 
 
 
 # BDD
