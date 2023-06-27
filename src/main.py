@@ -51,11 +51,6 @@ def getRecursos():
     return crud.get_recursos_desde_endpoint()
 
 
-@app.get("/recursos/{legajo}", summary="Obtener recurso por legajo", tags=["Recursos"])
-def getRecursosPorLegajo(legajo: int):
-    return crud.get_recurso_por_legajo_desde_endpoint(legajo)
-
-
 @app.get("/recursos/registros", summary="Obtener todos los registros de todos los recursos", tags=["Registros"])
 def getTodosLosRegistrosDeHoras(
     db: Session = Depends(get_db),
@@ -65,6 +60,11 @@ def getTodosLosRegistrosDeHoras(
     return crud.get_all_registros_desde_db(
         db=db, fechaInicio=fechaInicio, fechaFin=fechaFin
     )
+
+
+@app.get("/recursos/{legajo}", summary="Obtener recurso por legajo", tags=["Recursos"])
+def getRecursosPorLegajo(legajo: int):
+    return crud.get_recurso_por_legajo_desde_endpoint(legajo)
 
 
 @app.get("/recursos/{legajo}/registros", summary="Obtener registros de un legajo", tags=["Registros"])
