@@ -13,7 +13,7 @@ MENSAJE_ROOT = "PSA API Recursos. Ver documentacion en /docs "
 
 MAX_HORAS_A_REGISTRAR = 12
 MIN_HORAS_A_REGISTRAR = 1
-# REVISAR VALORES
+
 
 # ========================= GET: =========================
 
@@ -83,7 +83,7 @@ def get_registro_por_legajo_desde_db(
     )
 
 
-def get_registro(db: Session, legajo: int, idRegistro: int):
+def get_registro_por_id_desde_db(db: Session, legajo: int, idRegistro: int):
 
     _check_existe_recurso(legajo)
 
@@ -116,7 +116,7 @@ def _parse_projects_ids_to_list(projects: list):
 def _parse_tasks_ids_to_list(projects: list):
     tasks_ids = []
     for p in projects:
-        for t in p["tareas"]:
+        for t in p["tasks"]:
             tasks_ids.append(t["id"])
     return tasks_ids
 
@@ -189,6 +189,8 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.refresh(recvd_registro)
     return recvd_registro
 
+# ========================= PATCH: =========================
+
 
 def patch_registro(
     db: Session, legajo: int, idRegistro: int, registro: schemas.RegistroDeHorasPatch
@@ -196,7 +198,7 @@ def patch_registro(
     if not any(registro.dict().values()):
         raise RegistroVacioException(list(registro.dict().keys()))
 
-    recvd_registro = get_registro(db, legajo, idRegistro)
+    recvd_registro = get_registro_por_id_desde_db(db, legajo, idRegistro)
     for key, value in registro.dict().items():
         if value is None:
             continue
@@ -213,7 +215,7 @@ def patch_registro(
 
 
 def delete_registro(db: Session, legajo: int, idRegistro: int):
-    recvd_registro = get_registro(db, legajo, idRegistro)
+    recvd_registro = get_registro_por_id_desde_db(db, legajo, idRegistro)
     db.delete(recvd_registro)
     db.commit()
     return recvd_registro

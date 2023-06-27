@@ -96,7 +96,7 @@ def postRegistroDeHoras(
     summary="Obtener un registro de un legajo",
 )
 def getRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
-    return crud.get_registro(db=db, legajo=legajo, idRegistro=idRegistro)
+    return crud.get_registro_por_id_desde_db(db=db, legajo=legajo, idRegistro=idRegistro)
 
 
 @app.patch(

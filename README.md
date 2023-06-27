@@ -25,50 +25,56 @@
 
 ## Dependencias
 
-Ver ```requirements.txt```
+Se puede realizar la instalación de los paquetes por medio de:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Ejecución local
 
 ```bash
 python3 -m uvicorn src.main:app --reload
 ```
-## API REST
 
-Para la implementación de la API se utilizó el framework [FastAPI](https://fastapi.tiangolo.com/).
+## Implementación de API REST
 
+Para la implementación de la API se utilizó el framework [FastAPI](https://fastapi.tiangolo.com/) para python.
 
-## Despliegue
+## Despliegue    
 
-Se desplegó en [Render](https://render.com/) junto con la base de datos SQLite (su uso viene con la instalación de sqlalchemy). 
+Se desplegó en [Render](https://render.com/) junto con la base de datos SQLite (su uso viene con la instalación de sqlalchemy, por lo tanto en el despliegue solo se requiere 
+solicitar el web service a Render).
 
 La API está desplegada [aquí](https://rrhh-squad6-1c2023.onrender.com).
 
-Para ver documentación de la misma se utiliza swagger. Se puede visualizar accediendo al [endpoint de docs](https://rrhh-squad6-1c2023.onrender.com/docs). 
+Para ver documentación de la misma se utiliza swagger. Se puede visualizar accediendo al [endpoint de docs](https://rrhh-squad6-1c2023.onrender.com/docs).
 
-
-## BDD
+## Tests BDD
 
 Se utlizó la libreria [behave](https://behave.readthedocs.io/en/latest/) para los tests de Gherkin en Python
 
-Instalar librería behave
+Instalar librería behave:
+
 ```bash
 pip install behave
 ```
 
+***Nota: Los tests requieren que se esté ejecutando previamente la API de manera local.***
+
 Para correr los tests singularmente, posicionarse en el directorio /test/features/ y ejecutar el siguiente comando en la consola:
 ```bash
-$ behave <test>.feature
+behave <test>.feature
 ```
 
 Alternativamente se pueden correr todos los tests a la vez, ejecutando desde la raíz del directorio:
 ```bash
-$ behave test\features
+behave test\features
 ```
 
 ## APIs externas con las que se interactua
 
-- [Módulo de Proyecto](https://render.com/) 
-<!-- REEMPLAZAR CON EL URL APROPIADO ^-->
+- [Módulo de Proyectos](https://api-proyectos.onrender.com/projects) 
 - [Sistema externo de recursos](https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos). 
 
 Para realizar requests HTTP a APIs externas se usa la librería [requests](https://requests.readthedocs.io/en/latest/). 
