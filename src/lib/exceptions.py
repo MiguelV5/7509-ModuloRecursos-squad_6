@@ -42,7 +42,7 @@ class ProyectoNoExistenteException(Exception):
     type = PROYECTO_NO_EXISTE
 
     def __init__(self, idProyecto):
-        self.message = f"No existe el proyecto (id dada: {idProyecto}) al que se quiere registrar horas"
+        self.message = f"No existe el proyecto (id dada: {idProyecto}) al que se quiere acceder"
         pass
 
 
@@ -51,7 +51,7 @@ class TareaNoExistenteException(Exception):
     type = TAREA_NO_EXISTE
 
     def __init__(self, idTarea):
-        self.message = f"No existe la tarea (id dada: {idTarea}) a la que se quieren registrar horas"
+        self.message = f"No existe la tarea (id dada: {idTarea}) a la que se quiere acceder"
         pass
 
 # ========================= CHECKS SOBRE CANTIDAD DE HORAS: =========================

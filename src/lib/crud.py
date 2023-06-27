@@ -61,6 +61,8 @@ def get_registro_por_legajo_desde_db(
     legajo: int,
     fechaInicio: Union[date, None] = None,
     fechaFin: Union[date, None] = None,
+    idProyecto: Union[int, None] = None,
+    idTarea: Union[int, None] = None
 ):
 
     _check_existe_recurso(legajo)
@@ -73,11 +75,17 @@ def get_registro_por_legajo_desde_db(
 
     if fechaInicio > fechaFin:
         raise FechaInicialMayorAFinalException(fechaInicio, fechaFin)
+    
+    if idTarea and not idProyecto:
+        raise ProyectoNoExistenteException(idProyecto)
+        
 
     return (
         db.query(RegistroDeHoras)
         .filter(RegistroDeHoras.legajo_recurso == legajo)
         .filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin))
+        .filter(RegistroDeHoras.id_proyecto == idProyecto if idProyecto is not None else True)
+        .filter(RegistroDeHoras.id_tarea == idTarea if idTarea is not None else True)
         .order_by(RegistroDeHoras.fecha_de_registro)
         .all()
     )
