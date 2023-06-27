@@ -10,6 +10,18 @@ CANTIDAD_HORAS_EXCESIVAS = auto()
 CANTIDAD_HORAS_EXCESIVAS_EN_JORNADA = auto()
 FECHA_INICIAL_MAYOR = auto()
 REGISTRO_VACIO = auto()
+API_EXTERNAL_ERROR = auto()
+
+
+# ========================= PROBLEMAS CON LA API EXTERNA: =========================
+
+class ExternalAPIException(Exception):
+    message = ""
+    type = API_EXTERNAL_ERROR
+
+    def __init__(self, message):
+        self.message = f"Error ocurrido al acceder a la API externa: {str(message)}"
+        pass
 
 
 # ========================= CHECKS SOBRE RECUROS: =========================
