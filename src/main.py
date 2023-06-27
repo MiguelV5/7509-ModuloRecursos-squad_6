@@ -6,21 +6,21 @@ from typing import Union
 from src.lib import schemas
 from src.lib.database import SessionLocal, engine
 from src.lib.exceptions import *
+from src.metadata_params.metadata import FASTAPI_METADATA
 from sqlalchemy.orm import Session
 from datetime import date
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
-# Dependency
+app = FastAPI(**FASTAPI_METADATA)
 
-# Define the allowed origins (frontend URLs)
+
+# Define the allowed origins (frontend URLs for fetching)
 origins = [
     "http://localhost:3000",
-    # Add more origins as needed
+
 ]
 
-# Add CORS middleware to your app
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -41,17 +41,22 @@ def get_db():
 PROYECTOS_BASE_URL = ""
 
 
-@app.get("/", summary="Raíz")
-def root():
+@app.get("/", summary="Obtener mensaje root", tags=["Root"])
+def getRoot():
     return crud.get_mensaje_root()
 
 
-@app.get("/recursos", summary="Obtener recursos")
+@app.get("/recursos", summary="Obtener recursos", tags=["Recursos"])
 def getRecursos():
     return crud.get_recursos_desde_endpoint()
 
 
-@app.get("/recursos/registros", summary="Obtener todos los registros")
+@app.get("/recursos/{legajo}", summary="Obtener recurso por legajo", tags=["Recursos"])
+def getRecursosPorLegajo(legajo: int):
+    return crud.get_recurso_por_legajo_desde_endpoint(legajo)
+
+
+@app.get("/recursos/registros", summary="Obtener todos los registros de todos los recursos", tags=["Registros"])
 def getTodosLosRegistrosDeHoras(
     db: Session = Depends(get_db),
     fechaInicio: Union[date, None] = None,
@@ -62,12 +67,7 @@ def getTodosLosRegistrosDeHoras(
     )
 
 
-@app.get("/recursos/{legajo}", summary="Obtener recurso por legajo")
-def getRecursosPorLegajo(legajo: int):
-    return crud.get_recurso_por_legajo_desde_endpoint(legajo)
-
-
-@app.get("/recursos/{legajo}/registros", summary="Obtener registros de un legajo")
+@app.get("/recursos/{legajo}/registros", summary="Obtener registros de un legajo", tags=["Registros"])
 def getRegistrosDeHoras(
     legajo: int,
     db: Session = Depends(get_db),
@@ -83,6 +83,7 @@ def getRegistrosDeHoras(
     "/recursos/{legajo}/registros",
     response_model=schemas.RegistroDeHoras,
     summary="Crear un registro de un legajo",
+    tags=["Registros"],
 )
 def postRegistroDeHoras(
     legajo: int, registro: schemas.RegistroDeHorasCreate, db: Session = Depends(get_db)
@@ -94,6 +95,7 @@ def postRegistroDeHoras(
     "/recursos/{legajo}/registros/{idRegistro}",
     response_model=schemas.RegistroDeHoras,
     summary="Obtener un registro de un legajo",
+    tags=["Registros"],
 )
 def getRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
     return crud.get_registro_por_id_desde_db(db=db, legajo=legajo, idRegistro=idRegistro)
@@ -103,6 +105,7 @@ def getRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_d
     "/recursos/{legajo}/registros/{idRegistro}",
     response_model=schemas.RegistroDeHoras,
     summary="Modificar un registro de un legajo",
+    tags=["Registros"],
 )
 def patchRegistroDeHoras(
     legajo: int,
@@ -119,6 +122,7 @@ def patchRegistroDeHoras(
     "/recursos/{legajo}/registros/{idRegistro}",
     response_model=schemas.RegistroDeHoras,
     summary="Eliminar un registro de un legajo",
+    tags=["Registros"],
 )
 def deleteRegistroDeHoras(legajo: int, idRegistro: int, db: Session = Depends(get_db)):
     return crud.delete_registro(db=db, legajo=legajo, idRegistro=idRegistro)
