@@ -13,7 +13,7 @@ MENSAJE_ROOT = "PSA API Recursos. Ver documentacion en /docs "
 
 MAX_HORAS_A_REGISTRAR = 12
 MIN_HORAS_A_REGISTRAR = 1
-# REVISAR VALORES
+
 
 # ========================= GET: =========================
 
@@ -116,7 +116,7 @@ def _parse_projects_ids_to_list(projects: list):
 def _parse_tasks_ids_to_list(projects: list):
     tasks_ids = []
     for p in projects:
-        for t in p["tareas"]:
+        for t in p["tasks"]:
             tasks_ids.append(t["id"])
     return tasks_ids
 

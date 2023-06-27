@@ -55,6 +55,8 @@ Instalar librería behave
 pip install behave
 ```
 
+***Nota: Los tests requieren que se esté ejecutando previamente la API de manera local.***
+
 Para correr los tests singularmente, posicionarse en el directorio /test/features/ y ejecutar el siguiente comando en la consola:
 ```bash
 $ behave <test>.feature
@@ -67,7 +69,7 @@ $ behave test\features
 
 ## APIs externas con las que se interactua
 
-- [Módulo de Proyecto](https://render.com/) 
+- [Módulo de Proyectos](https://api-proyectos.onrender.com/projects) 
 <!-- REEMPLAZAR CON EL URL APROPIADO ^-->
 - [Sistema externo de recursos](https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos). 
 
