@@ -16,10 +16,7 @@ app = FastAPI(**FASTAPI_METADATA)
 
 
 # Define the allowed origins (frontend URLs for fetching)
-origins = [
-    "http://localhost:3000",
-
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -146,4 +143,5 @@ def validation_exception_handler(request, err):
         status_code=status_code,
         content={"message": f"{base_error_message}",
                  "detail": f"{err.message}"},
+        headers={"Access-Control-Allow-Origin": "*"}
     )
