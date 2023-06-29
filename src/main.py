@@ -53,9 +53,11 @@ def getTodosLosRegistrosDeHoras(
     db: Session = Depends(get_db),
     fechaInicio: Union[date, None] = None,
     fechaFin: Union[date, None] = None,
+    idProyecto: Union[int, None] = None,
+    idTarea: Union[int, None] = None
 ):
     return crud.get_all_registros_desde_db(
-        db=db, fechaInicio=fechaInicio, fechaFin=fechaFin
+        db=db, fechaInicio=fechaInicio, fechaFin=fechaFin, idProyecto=idProyecto, idTarea=idTarea
     )
 
 

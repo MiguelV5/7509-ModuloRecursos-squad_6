@@ -37,7 +37,11 @@ def get_recurso_por_legajo_desde_endpoint(legajo: int):
 
 
 def get_all_registros_desde_db(
-    db: Session, fechaInicio: Union[date, None] = None, fechaFin: Union[date, None] = None
+    db: Session,
+    fechaInicio: Union[date, None] = None,
+    fechaFin: Union[date, None] = None,
+    idProyecto: Union[int, None] = None,
+    idTarea: Union[int, None] = None,
 ):
     if fechaFin is None or fechaFin > date.today():
         fechaFin = date.today()
@@ -48,9 +52,18 @@ def get_all_registros_desde_db(
     if fechaInicio > fechaFin:
         raise FechaInicialMayorAFinalException(fechaInicio, fechaFin)
 
+    if idTarea and not idProyecto:
+        raise ProyectoNoExistenteException(idProyecto)
+
     return (
         db.query(RegistroDeHoras)
         .filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin))
+        .filter(
+            RegistroDeHoras.id_proyecto == idProyecto
+            if idProyecto is not None
+            else True
+        )
+        .filter(RegistroDeHoras.id_tarea == idTarea if idTarea is not None else True)
         .order_by(RegistroDeHoras.fecha_de_registro)
         .all()
     )
@@ -62,9 +75,8 @@ def get_registro_por_legajo_desde_db(
     fechaInicio: Union[date, None] = None,
     fechaFin: Union[date, None] = None,
     idProyecto: Union[int, None] = None,
-    idTarea: Union[int, None] = None
+    idTarea: Union[int, None] = None,
 ):
-
     _check_existe_recurso(legajo)
 
     if fechaFin is None:
@@ -75,16 +87,19 @@ def get_registro_por_legajo_desde_db(
 
     if fechaInicio > fechaFin:
         raise FechaInicialMayorAFinalException(fechaInicio, fechaFin)
-    
+
     if idTarea and not idProyecto:
         raise ProyectoNoExistenteException(idProyecto)
-        
 
     return (
         db.query(RegistroDeHoras)
         .filter(RegistroDeHoras.legajo_recurso == legajo)
         .filter(RegistroDeHoras.fecha_de_registro.between(fechaInicio, fechaFin))
-        .filter(RegistroDeHoras.id_proyecto == idProyecto if idProyecto is not None else True)
+        .filter(
+            RegistroDeHoras.id_proyecto == idProyecto
+            if idProyecto is not None
+            else True
+        )
         .filter(RegistroDeHoras.id_tarea == idTarea if idTarea is not None else True)
         .order_by(RegistroDeHoras.fecha_de_registro)
         .all()
@@ -92,7 +107,6 @@ def get_registro_por_legajo_desde_db(
 
 
 def get_registro_por_id_desde_db(db: Session, legajo: int, idRegistro: int):
-
     _check_existe_recurso(legajo)
 
     recvd_registro = (
@@ -139,7 +153,9 @@ def _check_existencia_de_proyecto_y_tarea(recvd_registro: RegistroDeHoras):
     projects = projects_requestor.getProyectosList()
     if recvd_registro.id_proyecto not in _parse_projects_ids_to_list(projects):
         raise ProyectoNoExistenteException(recvd_registro.id_proyecto)
-    elif recvd_registro.id_tarea not in _parse_tasks_ids_to_list(recvd_registro.id_proyecto):
+    elif recvd_registro.id_tarea not in _parse_tasks_ids_to_list(
+        recvd_registro.id_proyecto
+    ):
         raise TareaNoExistenteException(recvd_registro.id_tarea)
 
 
@@ -185,7 +201,6 @@ def _check_body_registro(recvd_registro: RegistroDeHoras, db: Session):
 
 
 def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCreate):
-
     _check_existe_recurso(legajo)
 
     recvd_registro = RegistroDeHoras(**registro.dict(), legajo_recurso=legajo)
@@ -196,6 +211,7 @@ def post_registro(db: Session, legajo: int, registro: schemas.RegistroDeHorasCre
     db.commit()
     db.refresh(recvd_registro)
     return recvd_registro
+
 
 # ========================= PATCH: =========================
 
