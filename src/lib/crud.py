@@ -8,7 +8,7 @@ from .models import RegistroDeHoras
 from . import schemas
 
 
-RECURSOS_ENDPOINT = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos"
+RECURSOS_ENDPOINT = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.1/m/api/recursos"
 MENSAJE_ROOT = "PSA API Recursos. Ver documentacion en /docs "
 
 MAX_HORAS_A_REGISTRAR = 12
