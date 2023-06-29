@@ -24,3 +24,13 @@ def getProyectoPorId(id: int):
         if proyecto["id"] == id:
             return proyecto
     raise ProyectoNoExistenteException(id)
+
+def getTareasDeProyecto(id: int):
+    try:
+        response = requests.get(f"{GET_PROYECTOS_ENDPOINT}/{id}/tasks", timeout=MAX_TIMEOUT)
+        response.raise_for_status()
+        return list(response.json())
+    except Timeout:
+        raise ExternalAPIException("Max Timeout reached")
+    except RequestException as e:
+        raise ExternalAPIException(f" {str(e)}")

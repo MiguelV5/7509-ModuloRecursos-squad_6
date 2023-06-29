@@ -121,11 +121,11 @@ def _parse_projects_ids_to_list(projects: list):
     return projects_ids
 
 
-def _parse_tasks_ids_to_list(projects: list):
+def _parse_tasks_ids_to_list(id: list):
+    tasks = projects_requestor.getTareasDeProyecto(id)
     tasks_ids = []
-    for p in projects:
-        for t in p["tasks"]:
-            tasks_ids.append(t["id"])
+    for t in tasks:
+        tasks_ids.append(t["id"])
     return tasks_ids
 
 
@@ -139,7 +139,7 @@ def _check_existencia_de_proyecto_y_tarea(recvd_registro: RegistroDeHoras):
     projects = projects_requestor.getProyectosList()
     if recvd_registro.id_proyecto not in _parse_projects_ids_to_list(projects):
         raise ProyectoNoExistenteException(recvd_registro.id_proyecto)
-    elif recvd_registro.id_tarea not in _parse_tasks_ids_to_list(projects):
+    elif recvd_registro.id_tarea not in _parse_tasks_ids_to_list(recvd_registro.id_proyecto):
         raise TareaNoExistenteException(recvd_registro.id_tarea)
 
 
